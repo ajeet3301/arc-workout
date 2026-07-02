@@ -11,6 +11,7 @@ export type Database = {
         };
         Insert: Partial<Database["public"]["Tables"]["profiles"]["Row"]> & { id: string };
         Update: Partial<Database["public"]["Tables"]["profiles"]["Row"]>;
+        Relationships: [];
       };
       habits: {
         Row: {
@@ -28,6 +29,7 @@ export type Database = {
           name: string;
         };
         Update: Partial<Database["public"]["Tables"]["habits"]["Row"]>;
+        Relationships: [];
       };
       habit_logs: {
         Row: {
@@ -43,6 +45,7 @@ export type Database = {
           completed_on: string;
         };
         Update: Partial<Database["public"]["Tables"]["habit_logs"]["Row"]>;
+        Relationships: [];
       };
       coach_messages: {
         Row: {
@@ -58,8 +61,18 @@ export type Database = {
           content: string;
         };
         Update: Partial<Database["public"]["Tables"]["coach_messages"]["Row"]>;
+        Relationships: [];
       };
     };
+    Views: Record<string, never>;
+    Functions: {
+      habit_streak: {
+        Args: { p_habit_id: string };
+        Returns: number;
+      };
+    };
+    Enums: Record<string, never>;
+    CompositeTypes: Record<string, never>;
   };
 };
 
