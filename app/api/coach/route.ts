@@ -45,8 +45,9 @@ export async function POST(request: Request) {
     .order("created_at", { ascending: false })
     .limit(10);
 
-  const orderedHistory = (history ?? []).reverse().map((m) => ({
-    role: m.role as "user" | "assistant",
+  const typedHistory = (history ?? []) as { role: "user" | "assistant"; content: string }[];
+  const orderedHistory = typedHistory.reverse().map((m) => ({
+    role: m.role,
     content: m.content,
   }));
 

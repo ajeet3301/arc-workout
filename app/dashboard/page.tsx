@@ -29,9 +29,12 @@ export default function DashboardPage() {
         supabase.from("habit_logs").select("habit_id").eq("user_id", user.id).eq("completed_on", today),
       ]);
 
-      setDisplayName(profile?.display_name ?? "there");
-      setHabits(habitRows ?? []);
-      setCompletedToday(new Set((logs ?? []).map((l) => l.habit_id)));
+      const typedProfile = profile as { display_name: string | null } | null;
+      const typedLogs = (logs ?? []) as { habit_id: string }[];
+
+      setDisplayName(typedProfile?.display_name ?? "there");
+      setHabits((habitRows as Habit[]) ?? []);
+      setCompletedToday(new Set(typedLogs.map((l) => l.habit_id)));
       setLoading(false);
     }
     load();

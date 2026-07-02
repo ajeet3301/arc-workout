@@ -22,7 +22,8 @@ export default function SettingsPage() {
       if (!user) return;
       setEmail(user.email ?? "");
       const { data: profile } = await supabase.from("profiles").select("display_name").eq("id", user.id).single();
-      setDisplayName(profile?.display_name ?? "");
+      const typedProfile = profile as { display_name: string | null } | null;
+      setDisplayName(typedProfile?.display_name ?? "");
     }
     load();
   }, []);
