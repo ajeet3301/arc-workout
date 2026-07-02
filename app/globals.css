@@ -1,0 +1,72 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap");
+
+:root {
+  --bg: 250 250 249;
+  --surface: 255 255 255;
+  --border: 0 0 0;
+  --text-primary: 17 17 17;
+  --text-secondary: 107 107 104;
+  --accent: 79 70 229;
+  --accent-fg: 255 255 255;
+  --success: 22 163 74;
+  --font-sans: "Inter", sans-serif;
+}
+
+.dark {
+  --bg: 11 11 12;
+  --surface: 255 255 255;
+  --border: 255 255 255;
+  --text-primary: 245 245 244;
+  --text-secondary: 163 162 156;
+  --accent: 129 140 248;
+  --accent-fg: 17 17 17;
+  --success: 74 222 128;
+}
+
+* {
+  border-color: rgb(var(--border) / 0.08);
+}
+
+body {
+  background: rgb(var(--bg));
+  color: rgb(var(--text-primary));
+  font-family: var(--font-sans);
+}
+
+.glass {
+  background: rgb(var(--surface) / 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgb(var(--border) / 0.08);
+}
+
+.dark .glass {
+  background: rgb(var(--surface) / 0.06);
+}
+
+.card {
+  background: rgb(var(--surface) / 0.04);
+  border: 1px solid rgb(var(--border) / 0.08);
+  border-radius: 16px;
+}
+
+.dark .card {
+  background: rgb(var(--surface) / 0.05);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+:focus-visible {
+  outline: 2px solid rgb(var(--accent));
+  outline-offset: 2px;
+}
