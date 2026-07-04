@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { createClient } from "@/lib/supabase/client";
+import { saveUser, uuidFromEmail } from "@/lib/user";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 
@@ -15,40 +15,26 @@ export default function LoginPage() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    const trimmedName = name.trim();
+    const trimmedEmail = email.trim().toLowerCase();
+
+    if (!trimmedName || !trimmedEmail) {
+      setError("Please fill in both fields.");
+      return;
+    }
+
     setLoading(true);
     setError("");
 
-    const supabase = createClient();
-
-    // Sign up or sign in — no verification email will be sent
-    const { error: signUpError } = await supabase.auth.signUp({
-      email: email.trim().toLowerCase(),
-      password: crypto.randomUUID(), // random password — user never sees it
-      options: {
-        data: { display_name: name.trim() },
-      },
-    });
-
-    if (signUpError && signUpError.message !== "User already registered") {
-      setError(signUpError.message);
+    try {
+      const id = await uuidFromEmail(trimmedEmail);
+      // Save to localStorage + set cookie — zero Supabase auth, zero emails
+      saveUser({ id, name: trimmedName, email: trimmedEmail });
+      router.push("/dashboard");
+    } catch {
+      setError("Something went wrong. Try again.");
       setLoading(false);
-      return;
     }
-
-    // If already registered, sign them in with OTP (no password needed)
-    const { error: otpError } = await supabase.auth.signInWithOtp({
-      email: email.trim().toLowerCase(),
-      options: { shouldCreateUser: false },
-    });
-
-    if (otpError) {
-      setError(otpError.message);
-      setLoading(false);
-      return;
-    }
-
-    router.push("/dashboard");
-    router.refresh();
   }
 
   return (
