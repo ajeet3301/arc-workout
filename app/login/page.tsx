@@ -56,7 +56,7 @@ export default function LoginPage() {
       <Card className="w-full max-w-sm">
         <h1 className="text-xl font-medium">Welcome to Arc</h1>
         <p className="mt-1 text-sm text-secondary">
-          Enter your name and Gmail — no password, no verification.
+          Enter your name and Gmail.
         </p>
 
         <form onSubmit={handleSubmit} className="mt-6 flex flex-col gap-3">
